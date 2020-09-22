@@ -1,18 +1,11 @@
 import requests
-from flask import Flask, render_template, url_for, request
+from flask import Flask, request, render_template, url_for
 import json
 import pymysql
 from pymysql.cursors import DictCursor
-import pandas as pd
+#import pandas as pd
 
 app = Flask(__name__)
-
-conf = {'db': 'projet_bootcamp',
-        'port': 3306,
-        'host': 'localhost',
-        'user': 'root',
-        'password': 'root',
-        'charset': 'utf8' }
 
 @app.route('/')
 def home():
@@ -26,18 +19,20 @@ def api():
 
 @app.route('/connect', methods=['POST', 'GET'])
 def connect():
-    pseudo=requests.get("pseudo")
-    password=request.get("password")
-    con= pymysql.connect(**conf)
-    dictionary={}
-    dictionary=con.cursor.execute('SELECT * FROM users WHERE Pseudo= %s AND mot_de_passe=%s', (pseudo,password))
-    if dictionary is None:
-        reponse="form.html"
-    else:
-        reponse="home.html"
-    return render_template(reponse)
-
-    
+    if request.method == 'POST':
+        pseudo=request.form["pseudo"]
+        password=request.form["password"]
+        connection = pymysql.connect(host='127.0.0.1', user='root', password='root', database='projet_bootcamp', cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with connection.cursor() as cursor:
+                user= cursor.execute('SELECT * FROM users WHERE Pseudo = ?', (pseudo,)).fetchone()
+                if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+        finally:
+            connection.close()
+        return render_template(reponse)
 
 
 if __name__ == '__main__':
