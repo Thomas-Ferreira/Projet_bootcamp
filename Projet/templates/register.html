@@ -6,21 +6,15 @@
     </head>
 
     <body>
-        <form action='/new_entry' method="POST">
-            <label>Titre du film</label>
-            <input type="text" name="Titre" id="Titre">
-            <input type="submit" value="valider">
-        </form>
         <p>{{error}}</p>
-        <form action='/connect' method="POST">
+        <p>Création de votre compte</p>
+        <form action='/register' method="POST">
             <label>Pseudo</label>
             <input type="text" name="pseudo" id="pseudo">
             <label>Password</label>
             <input type="password" name="password" id="password">
             <input type="submit" value="se connecter">
         </form>
-
-        <a href="/api">créer votre compte</a>
 
     </body>
 
