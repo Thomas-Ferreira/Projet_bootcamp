@@ -7,8 +7,18 @@
 
     <body>
 
-        <a>vous etes connecte</a>
-        <a>{{error}}</a>
+        <p>vous etes connecte</p>
+
+        <p>
+            <form action="find_movie" method="POST">
+                <label>Titre du film</label>
+                <input type="text" name="Titre" id="Titre">
+                <input type="submit" value="valider">
+            </form>
+        </p>
+
+        <p>{{reponse}}</p>
+
 
     </body>
 
